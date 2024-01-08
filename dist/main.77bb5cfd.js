@@ -117,64 +117,62 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"data.json":[function(require,module,exports) {
-module.exports = [{
-  "data1": 30,
-  "data2": "123",
-  "familyName": "Hong",
-  "firstName": "Gilldong"
-}, {
-  "familyName": "Song",
-  "firstName": "Gillson"
-}, {
-  "familyName": "Park",
-  "firstName": "Miso"
-}, {
-  "familyName": "Lee",
-  "firstName": "Bangja"
-}, {
-  "familyName": "Kim",
-  "firstName": "Gula"
-}];
-},{}],"js/main.js":[function(require,module,exports) {
-'use strict';
-
-// localhost
-// 1. import 방식 데이터 통신
-var _data = _interopRequireDefault(require("../data.json"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-// console.log(data);
-var ulEl = document.querySelector('.list');
-// console.log(ulEl);
-
-_data.default.forEach(function (listData) {
-  // console.log(listData.familyName);
-  ulEl.innerHTML += "<li>".concat(listData.familyName, " / ").concat(listData.firstName, "</li>");
-});
-
-// // 2. data 통신 -> XMLHttpRequest() API
-// try {
-//   const _app_json_file = '/data.json';
-//   const _app_request = new XMLHttpRequest();
-//   _app_request.open("GET, _app_json_file");
-//   _app_request.send(null);
-
-//   const _app_json_data = JSON.parse(_app_request.responseText);
-//   console.log(_app_json_data);
-// } catch(error) {
-//   alert(error);
-// };
-
-// 예전 방식의 데이터 불러오기
-var ajax = new XMLHttpRequest();
-ajax.onreadystatechange = function () {
-  if (this.readyState == 4 && this.status == 200) {
-    console.log(ajax.resposseText);
+})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
   }
-};
-ajax.open('https://jjaeggm.github.io/first_project/json.data', true);
-ajax.send();
-},{"../data.json":"data.json"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  return bundleURL;
+}
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+  return '/';
+}
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+function updateLink(link) {
+  var newLink = link.cloneNode();
+  newLink.onload = function () {
+    link.remove();
+  };
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+var cssTimeout = null;
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+    cssTimeout = null;
+  }, 50);
+}
+module.exports = reloadCSS;
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"scss/main.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -343,5 +341,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/main.js"], null)
-//# sourceMappingURL=/main.fb6bbcaf.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/main.77bb5cfd.js.map
